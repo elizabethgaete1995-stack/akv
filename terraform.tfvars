@@ -1,5 +1,6 @@
 // DATA
 rsg_name       = "rg-poc-test-001"
+rsg_lwk        = "rg-poc-test-001"
 
 location       = "chl"
 
