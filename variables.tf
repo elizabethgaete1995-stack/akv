@@ -209,7 +209,12 @@ variable "custom_tags" {
   default     = {}
 }
 
-variable "tags" {}
+variable "tags" {
+  description = "Tags del recurso"
+  type        = map(string)
+  default     = {}
+}
+
 variable "app_name" {
   type        = bool
   description = "(Optional) Inherits resource group tags. Values can be false or true (by default)."
