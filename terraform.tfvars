@@ -1,11 +1,16 @@
-// DATA
+// COMMON VARIABLES
 rsg_name       = "rg-poc-test-001"
-rsg_lwk        = "rg-poc-test-001"
-
 location       = "chl"
 
-analytics_diagnostic_monitor_enabled = false
+//PRODUCT
+sku_name = "premium"
+
+// MONITOR DIAGNOSTICS SETTINGS
+lwk_rsg_name                         = "rg-poc-test-001"
+lwk_name                             = "lwkchilecentrallwkdev001"
 analytics_diagnostic_monitor_name    = "akv-poc-dev-chl-001-adm"
+analytics_diagnostic_monitor_enabled = true
+analytics_diagnostic_monitor_enabled = false
 
 
 // NAMING VARIABLES
