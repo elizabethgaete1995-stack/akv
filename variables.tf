@@ -209,3 +209,4 @@ variable "custom_tags" {
   default     = {}
 }
 variable "tags" {}
+variable "app_name" {}
