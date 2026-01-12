@@ -208,7 +208,22 @@ variable "custom_tags" {
   description = "(Optional) Custom tags for product."
   default     = {}
 }
+
 variable "tags" {}
-variable "app_name" {}
-variable "arm_tenant_id" {}
-variable "object_id" {}
+variable "app_name" {
+  type        = bool
+  description = "(Optional) Inherits resource group tags. Values can be false or true (by default)."
+  default     = true
+}
+
+variable "arm_tenant_id" {
+  type        = bool
+  description = "(Optional) Inherits resource group tags. Values can be false or true (by default)."
+  default     = true
+}
+
+variable "object_id" {
+  type        = bool
+  description = "(Optional) Inherits resource group tags. Values can be false or true (by default)."
+  default     = true
+}
