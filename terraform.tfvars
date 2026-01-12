@@ -2,6 +2,7 @@
 rsg_name       = "rg-poc-test-001"
 location       = "chilecentral"
 subscription_id = "ef0a94be-5750-4ef8-944b-1bbc0cdda800"
+arm_tenant_id   = "fe6c41e5-a3e4-4d16-82df-1b33029102eb"
 
 //PRODUCT
 sku_name = "premium"
@@ -21,7 +22,7 @@ sequence_number = "001"
 // TAGGING
 
 tags = {
-  app_name ="akv"
+ app_name ="akv"
  cost_center ="CC-Test" 
  tracking_cod ="POC"
 }
