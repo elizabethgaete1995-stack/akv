@@ -233,7 +233,7 @@ variable "object_id" {
   default     = true
 }
 variable "subscription_id" {
-  type        = bool
+  type        = string
   description = "(Optional) Inherits resource group tags. Values can be false or true (by default)."
   default     = true
 }
