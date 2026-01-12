@@ -222,7 +222,7 @@ variable "app_name" {
 }
 
 variable "arm_tenant_id" {
-  type        = bool
+  type        = string
   description = "(Optional) Inherits resource group tags. Values can be false or true (by default)."
   default     = true
 }
