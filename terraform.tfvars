@@ -10,8 +10,6 @@ lwk_rsg_name                         = "rg-poc-test-001"
 lwk_name                             = "lwkchilecentrallwkdev001"
 analytics_diagnostic_monitor_name    = "akv-poc-dev-chl-001-adm"
 analytics_diagnostic_monitor_enabled = true
-analytics_diagnostic_monitor_enabled = false
-
 
 // NAMING VARIABLES
 entity         = "akv"
