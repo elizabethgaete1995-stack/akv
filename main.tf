@@ -58,6 +58,7 @@ resource "azurerm_key_vault" "akv_sa" {
   enabled_for_template_deployment = var.target_scenario ? true : false
   sku_name                        = var.sku_name
   enable_rbac_authorization       = var.enable_rbac_authorization
+  tags                            = var.tags
 
 /*
   network_acls {
