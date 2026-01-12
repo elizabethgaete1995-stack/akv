@@ -1,6 +1,7 @@
 // COMMON VARIABLES
 rsg_name       = "rg-poc-test-001"
 location       = "chl"
+subscription_id = "ef0a94be-5750-4ef8-944b-1bbc0cdda800"
 
 //PRODUCT
 sku_name = "premium"
