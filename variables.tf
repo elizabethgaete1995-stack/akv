@@ -208,3 +208,4 @@ variable "custom_tags" {
   description = "(Optional) Custom tags for product."
   default     = {}
 }
+variable "tags" {}
