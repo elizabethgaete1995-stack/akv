@@ -1,0 +1,10 @@
+rsg_name                             = "sgtd2weursgbdunitcomm001"
+location                             = "westeurope"
+entity                               = "sgt"
+environment                          = "d2"
+app_acronym                          = "bdunit"
+function_acronym                     = "comm"
+sequence_number                      = "010"
+inherit                              = true
+custom_tags                          = {"description": "test", "test":"test2"}
+optional_tags                        = {}
