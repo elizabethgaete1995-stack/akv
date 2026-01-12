@@ -211,3 +211,4 @@ variable "custom_tags" {
 variable "tags" {}
 variable "app_name" {}
 variable "arm_tenant_id" {}
+variable "object_id" {}
