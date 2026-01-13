@@ -67,7 +67,7 @@ resource "azurerm_key_vault" "akv_sa" {
     ip_rules                   = distinct(compact(concat(var.ip_rules, module.module-IPwhitelist.ip_whitelist)))
     virtual_network_subnet_ids = var.virtual_network_subnet_ids
   }
-*/
+
 }
 
 resource "azurerm_key_vault_access_policy" "kvt_access_policy" {
@@ -146,7 +146,25 @@ resource "azurerm_key_vault_access_policy" "kvt_access_policy" {
     "DeleteSAS"
   ]
 }
+*/
 
+dynamic "access_policy" {
+    for_each = var.enable_rbac_authorization ? [] : [1]
+    content {
+      tenant_id = data.azurerm_client_config.current.tenant_id
+      object_id = data.azurerm_client_config.current.object_id
+
+      secret_permissions = [
+        "Get",
+        "List",
+        "Set",
+        "Delete",
+        "Recover",
+        "Purge"
+      ]
+    }
+  }
+}
 resource "azurerm_role_assignment" "kv_role_assignment" {
   count                = var.enable_rbac_authorization ? 1 : 0
   scope                = azurerm_key_vault.akv_sa.id
