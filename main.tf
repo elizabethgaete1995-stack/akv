@@ -151,7 +151,7 @@ resource "azurerm_key_vault_access_policy" "kvt_access_policy" {
 dynamic "access_policy" {
     for_each = var.enable_rbac_authorization ? [] : [1]
     content {
-      tenant_id = data.azurerm_client_config.current.tenant_id
+      arm_tenant_id = data.azurerm_client_config.current.arm_tenant_id
       #object_id = data.azurerm_client_config.current.object_id
 
       secret_permissions = [
