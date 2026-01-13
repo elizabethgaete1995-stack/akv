@@ -59,7 +59,7 @@ resource "azurerm_key_vault" "akv_sa" {
   sku_name                        = var.sku_name
   enable_rbac_authorization       = var.enable_rbac_authorization
   tags			          = var.tags
-
+/*
   network_acls {
     default_action             = "Deny"
     bypass                     = var.target_scenario ? "AzureServices" : "None"
@@ -68,7 +68,7 @@ resource "azurerm_key_vault" "akv_sa" {
   }
 
 }
-
+*/
 resource "azurerm_key_vault_access_policy" "kvt_access_policy" {
   count = !var.enable_rbac_authorization ? 1 : 0
 
