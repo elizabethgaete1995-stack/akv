@@ -1,14 +1,38 @@
 // MODULES
-/*
 # Module whitelist
 module "module-IPwhitelist" {
-  source  = "indicar ruta"
+  source  = "tfe1.sgtech.corp/curated-catalog/module-irw/azurerm"
   version = ">=1.0.0"
 }
-*/
+
+# Module regions
+module "azure_regions" {
+  source  = "tfe1.sgtech.corp/curated-catalog/module-reg/azurerm"
+  version = ">=1.0.0"
+}
+
+# Module tags
+module "tags" {
+  source  = "tfe1.sgtech.corp/curated-catalog/module-tag/azurerm"
+  version = ">=1.0.0"
+
+  rsg_name       = var.rsg_name
+  inherit        = var.inherit
+  product        = var.product
+  cost_center    = var.cost_center
+  shared_costs   = var.shared_costs
+  apm_functional = var.apm_functional
+  cia            = var.cia
+  custom_tags    = var.custom_tags
+  optional_tags  = var.optional_tags
+}
+
 locals {
-# Define variables for local scope
-  #geo_region = lookup(local.regions, local.location)
+
+  regions = module.azure_regions.regions
+
+  geo_region = lookup(local.regions, local.location)
+
   diagnostic_monitor_enabled = substr(var.rsg_name, 3, 1) == "p" || var.analytics_diagnostic_monitor_enabled ? true : false
   mds_lwk_enabled            = var.analytics_diagnostic_monitor_lwk_id != null || (var.lwk_name != null && local.rsg_lwk != null)
   mds_sta_enabled            = var.analytics_diagnostic_monitor_sta_id != null || (var.analytics_diagnostic_monitor_sta_name != null && var.analytics_diagnostic_monitor_sta_rsg != null)
@@ -18,6 +42,7 @@ locals {
   rsg_lwk  = var.lwk_rsg_name != null ? var.lwk_rsg_name : data.azurerm_resource_group.rsg_principal.name
 
 }
+
 
 data "azurerm_resource_group" "rsg_principal" {
   name = var.rsg_name
@@ -48,10 +73,9 @@ data "azurerm_monitor_diagnostic_categories" "akv" {
 }
 
 resource "azurerm_key_vault" "akv_sa" {
-  resource "azurerm_log_analytics_workspace" "lwk" {
-  name                = join("", [var.app_name, local.geo_region, var.entity,var.environment, var.sequence_number])
+  name                            = join("", [var.entity, var.environment, local.geo_region, "akv", var.app_acronym, var.function_acronym, var.sequence_number])
   resource_group_name             = var.rsg_name
-  location                        = var.location
+  location                        = local.location
   tenant_id                       = var.arm_tenant_id
   purge_protection_enabled        = true
   enabled_for_disk_encryption     = var.target_scenario ? true : false
@@ -59,8 +83,7 @@ resource "azurerm_key_vault" "akv_sa" {
   enabled_for_template_deployment = var.target_scenario ? true : false
   sku_name                        = var.sku_name
   enable_rbac_authorization       = var.enable_rbac_authorization
-  tags			          = var.tags
-/*
+
   network_acls {
     default_action             = "Deny"
     bypass                     = var.target_scenario ? "AzureServices" : "None"
@@ -68,8 +91,10 @@ resource "azurerm_key_vault" "akv_sa" {
     virtual_network_subnet_ids = var.virtual_network_subnet_ids
   }
 
+  tags = var.inherit ? module.tags.tags : module.tags.tags_complete
+
 }
-*/
+
 resource "azurerm_key_vault_access_policy" "kvt_access_policy" {
   count = !var.enable_rbac_authorization ? 1 : 0
 
