@@ -92,7 +92,7 @@ resource "azurerm_key_vault" "akv_sa" {
     virtual_network_subnet_ids = var.virtual_network_subnet_ids
   }
 
-  tags = var.inherit ? module.tags.tags : module.tags.tags_complete
+  #tags = var.inherit ? module.tags.tags : module.tags.tags_complete
 
 }
 
