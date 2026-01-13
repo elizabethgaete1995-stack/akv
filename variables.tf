@@ -242,4 +242,10 @@ variable "geo_region" {
   description = "(Optional) Inherits resource group tags. Values can be false or true (by default)."
   default     = true
 }
+variable "regions" {
+  type        = string
+  description = "(Optional) Inherits resource group tags. Values can be false or true (by default)."
+  default     = true
+}
+
 
