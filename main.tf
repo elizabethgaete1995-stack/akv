@@ -29,15 +29,15 @@ module "tags" {
 }
 */
 locals {
-
-  #regions = module.azure_regions.regions
-  geo_region = lookup(var.regions, var.location)
+  #regions         = module.azure_regions.regions
+  geo_region = lookup(local.regions, local.location)
   diagnostic_monitor_enabled = substr(var.rsg_name, 3, 1) == "p" || var.analytics_diagnostic_monitor_enabled ? true : false
   mds_lwk_enabled            = var.analytics_diagnostic_monitor_lwk_id != null || (var.lwk_name != null && local.rsg_lwk != null)
   mds_sta_enabled            = var.analytics_diagnostic_monitor_sta_id != null || (var.analytics_diagnostic_monitor_sta_name != null && var.analytics_diagnostic_monitor_sta_rsg != null)
   mds_aeh_enabled            = var.analytics_diagnostic_monitor_aeh_name != null && (var.eventhub_authorization_rule_id != null || (var.analytics_diagnostic_monitor_aeh_namespace != null && var.analytics_diagnostic_monitor_aeh_rsg != null))
-  location                   = var.location != null ? var.location : data.azurerm_resource_group.rsg_principal.location
   rsg_lwk  = var.lwk_rsg_name != null ? var.lwk_rsg_name : data.azurerm_resource_group.rsg_principal.name
+  location                   = var.location != null ? var.location : data.azurerm_resource_group.rsg_principal.location
+
 
 }
 
@@ -78,7 +78,7 @@ data "azurerm_monitor_diagnostic_categories" "akv" {
 
 # Creata a Key Vault
 resource "azurerm_key_vault" "akv_sa" {
-  name                            = join("", [var.app_name, var.location, var.entity,var.environment, var.sequence_number])
+  name                = join("", [var.app_name, local.geo_region, var.entity,var.environment, var.sequence_number])
   resource_group_name             = var.rsg_name
   location                        = local.location
   tenant_id                       = var.arm_tenant_id
