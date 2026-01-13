@@ -75,7 +75,7 @@ resource "azurerm_key_vault_access_policy" "kvt_access_policy" {
 
   key_vault_id = azurerm_key_vault.akv_sa.id
   tenant_id    = var.arm_tenant_id
-  object_id    = var.object_id
+  #object_id    = var.object_id
 
   key_permissions = [
     "Encrypt",
