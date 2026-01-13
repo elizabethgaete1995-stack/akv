@@ -237,4 +237,9 @@ variable "subscription_id" {
   description = "(Optional) Inherits resource group tags. Values can be false or true (by default)."
   default     = true
 }
+variable "geo_region" {
+  type        = string
+  description = "(Optional) Inherits resource group tags. Values can be false or true (by default)."
+  default     = true
+}
 
