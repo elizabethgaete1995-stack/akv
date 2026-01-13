@@ -32,7 +32,7 @@ locals {
 
   #regions = module.azure_regions.regions
 
-  geo_region = lookup(local.regions, local.location)
+  geo_region = lookup(var.regions, var.location)
 
   diagnostic_monitor_enabled = substr(var.rsg_name, 3, 1) == "p" || var.analytics_diagnostic_monitor_enabled ? true : false
   mds_lwk_enabled            = var.analytics_diagnostic_monitor_lwk_id != null || (var.lwk_name != null && local.rsg_lwk != null)
