@@ -48,7 +48,7 @@ data "azurerm_monitor_diagnostic_categories" "akv" {
 }
 
 resource "azurerm_key_vault" "akv_sa" {
-  name                = join("", [var.app_name, local.geo_region, var.entity,var.environment, var.sequence_number])
+  name                = join("", [var.app_name, var.geo_region, var.entity,var.environment, var.sequence_number])
   resource_group_name             = var.rsg_name
   location                        = var.location
   tenant_id                       = var.arm_tenant_id
