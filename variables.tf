@@ -230,7 +230,7 @@ variable "arm_tenant_id" {
 variable "object_id" {
   type        = bool
   description = "(Optional) Inherits resource group tags. Values can be false or true (by default)."
-  default     = true
+  default     = false
 }
 variable "subscription_id" {
   type        = string
