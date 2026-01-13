@@ -30,7 +30,7 @@ module "tags" {
 */
 locals {
 
-  regions = module.azure_regions.regions
+  #regions = module.azure_regions.regions
 
   geo_region = lookup(local.regions, local.location)
 
