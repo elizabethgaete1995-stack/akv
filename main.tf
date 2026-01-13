@@ -1,3 +1,4 @@
+/*
 // MODULES
 # Module whitelist
 module "module-IPwhitelist" {
@@ -26,7 +27,7 @@ module "tags" {
   custom_tags    = var.custom_tags
   optional_tags  = var.optional_tags
 }
-
+*/
 locals {
 
   regions = module.azure_regions.regions
@@ -73,9 +74,9 @@ data "azurerm_monitor_diagnostic_categories" "akv" {
 }
 
 resource "azurerm_key_vault" "akv_sa" {
-  name                            = join("", [var.entity, var.environment, local.geo_region, "akv", var.app_acronym, var.function_acronym, var.sequence_number])
+  name                            = join("", [var.app_name, local.geo_region, var.entity,var.environment, var.sequence_number])
   resource_group_name             = var.rsg_name
-  location                        = local.location
+  location                        = var.location
   tenant_id                       = var.arm_tenant_id
   purge_protection_enabled        = true
   enabled_for_disk_encryption     = var.target_scenario ? true : false
@@ -87,7 +88,7 @@ resource "azurerm_key_vault" "akv_sa" {
   network_acls {
     default_action             = "Deny"
     bypass                     = var.target_scenario ? "AzureServices" : "None"
-    ip_rules                   = distinct(compact(concat(var.ip_rules, module.module-IPwhitelist.ip_whitelist)))
+    ip_rules                   = distinct(compact(concat(var.ip_rules)))
     virtual_network_subnet_ids = var.virtual_network_subnet_ids
   }
 
