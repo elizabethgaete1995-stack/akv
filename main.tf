@@ -10,25 +10,31 @@ locals {
 
 }
 
+#DATA
+# Get info about curent session
+data "azurerm_client_config" "current" {}
+
+# Get and set a resource group for deploy.
 data "azurerm_resource_group" "rsg_principal" {
   name = var.rsg_name
 }
 
+# Get and set a monitor diagnostic settings
 data "azurerm_log_analytics_workspace" "lwk_principal" {
   count = local.mds_lwk_enabled && var.analytics_diagnostic_monitor_lwk_id == null ? 1 : 0
-
   name                = var.lwk_name
   resource_group_name = local.rsg_lwk
 }
 
+# Get and set a Storage Account to send logs in monitor diagnostic settings
 data "azurerm_storage_account" "mds_sta" {
-  count               = local.mds_sta_enabled && var.analytics_diagnostic_monitor_sta_id == null ? 1 : 0
+  count = local.mds_sta_enabled && var.analytics_diagnostic_monitor_sta_id == null ? 1 : 0
   name                = var.analytics_diagnostic_monitor_sta_name
   resource_group_name = var.analytics_diagnostic_monitor_sta_rsg
 }
-
+# Get and set a Event Hub Authorization Rule to send logs in monitor diagnostic settings
 data "azurerm_eventhub_namespace_authorization_rule" "mds_aeh" {
-  count               = local.mds_aeh_enabled && var.eventhub_authorization_rule_id == null ? 1 : 0
+  count = local.mds_aeh_enabled && var.eventhub_authorization_rule_id == null ? 1 : 0
   name                = var.analytics_diagnostic_monitor_aeh_policy
   resource_group_name = var.analytics_diagnostic_monitor_aeh_rsg
   namespace_name      = var.analytics_diagnostic_monitor_aeh_namespace
@@ -43,19 +49,20 @@ data "azurerm_monitor_diagnostic_categories" "akv" {
 # USEFUL CODE #
 ###################################################
 ###################################################
-#Key Vault"
-
+# Creata a Key Vault
 resource "azurerm_key_vault" "akv_sa" {
   name                = join("", [var.app_name, var.location, var.entity,var.environment, var.sequence_number])
   location            = var.location
   resource_group_name = var.rsg_name
+  sku                 = var.sku_lwk_name
   tenant_id                       = var.arm_tenant_id
   purge_protection_enabled        = true
   enabled_for_disk_encryption     = var.target_scenario ? true : false
   enabled_for_deployment          = var.deploy
   enabled_for_template_deployment = var.target_scenario ? true : false
-  sku_name                        = var.sku_name
   enable_rbac_authorization       = var.enable_rbac_authorization
+
+  tags = var.inherit ? module.tags.tags : module.tags.tags_complete
 
   network_acls {
     default_action             = "Deny"
@@ -63,9 +70,6 @@ resource "azurerm_key_vault" "akv_sa" {
     ip_rules                   = distinct(compact(concat(var.ip_rules)))
     virtual_network_subnet_ids = var.virtual_network_subnet_ids
   }
-
-  #tags = var.inherit ? module.tags.tags : module.tags.tags_complete
-
 }
 
 resource "azurerm_key_vault_access_policy" "kvt_access_policy" {
