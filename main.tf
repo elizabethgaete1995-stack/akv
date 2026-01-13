@@ -48,7 +48,7 @@ data "azurerm_monitor_diagnostic_categories" "akv" {
 }
 
 resource "azurerm_key_vault" "akv_sa" {
-  name                = join("", [var.app_name, var.geo_region, var.entity,var.environment, var.sequence_number])
+  name                            = join("", [var.app_name, var.location, var.entity,var.environment, var.sequence_number])
   resource_group_name             = var.rsg_name
   location                        = var.location
   tenant_id                       = var.arm_tenant_id
@@ -58,9 +58,8 @@ resource "azurerm_key_vault" "akv_sa" {
   enabled_for_template_deployment = var.target_scenario ? true : false
   sku_name                        = var.sku_name
   enable_rbac_authorization       = var.enable_rbac_authorization
-  tags                            = var.tags
+  tags			          = var.tags
 
-/*
   network_acls {
     default_action             = "Deny"
     bypass                     = var.target_scenario ? "AzureServices" : "None"
@@ -75,7 +74,7 @@ resource "azurerm_key_vault_access_policy" "kvt_access_policy" {
 
   key_vault_id = azurerm_key_vault.akv_sa.id
   tenant_id    = var.arm_tenant_id
-  #object_id    = var.object_id
+  object_id    = var.object_id
 
   key_permissions = [
     "Encrypt",
@@ -146,25 +145,7 @@ resource "azurerm_key_vault_access_policy" "kvt_access_policy" {
     "DeleteSAS"
   ]
 }
-*/
 
-dynamic "access_policy" {
-    for_each = var.enable_rbac_authorization ? [] : [1]
-    content {
-      arm_tenant_id = data.azurerm_client_config.current.arm_tenant_id
-      #object_id = data.azurerm_client_config.current.object_id
-
-      secret_permissions = [
-        "Get",
-        "List",
-        "Set",
-        "Delete",
-        "Recover",
-        "Purge"
-      ]
-    }
-  }
-}
 resource "azurerm_role_assignment" "kv_role_assignment" {
   count                = var.enable_rbac_authorization ? 1 : 0
   scope                = azurerm_key_vault.akv_sa.id
