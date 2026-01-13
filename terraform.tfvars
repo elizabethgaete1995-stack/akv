@@ -18,16 +18,12 @@ analytics_diagnostic_monitor_enabled = true
 entity         = "akv"
 environment    = "dev"
 app_acronym    = "poc"
+function_acronym = "crit"
 sequence_number = "001"
 
 // TAGGING
-
-tags = {
- app_name ="akv"
- cost_center ="CC-Test" 
- tracking_cod ="POC"
-}
-
- # Custom tags
- custom_tags = { "1" = "1", "2" = "2" }
-
+app_name ="lwk"
+cost_center ="CC-Test" 
+tracking_cod ="POC"
+# Custom tags
+custom_tags = { "1" = "1", "2" = "2" }
